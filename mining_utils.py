@@ -47,7 +47,7 @@ headers = ["Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like 
 
 def getProxys():
     datas = []
-    for x in range(10):
+    for x in range(5):
         r = requests.get(
             'https://h.wandouip.com/get/ip-list?pack=0&num=20&xy=1&type=2&lb=\r\n&mr=1&')
         r.encoding = 'utr-8'
@@ -158,7 +158,10 @@ def getContentRequest(url):
                     "Connection": "keep-alive",
                     "Accept-Language": "Zh-CN, zh;q=0.8, en-gb;q=0.8, en;q=0.7",
                     "User-Agent": user_agent}
-    r = requests.get(url, headers=send_headers)
+    try:
+        r = requests.get(url, headers=send_headers)
+    except requests.exceptions.ConnectionError as e:
+        return None
     r.encoding = 'gbk'
     response_code = r.status_code
     if response_code == 403:
